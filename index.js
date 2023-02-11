@@ -11,8 +11,7 @@ import {
 import { PostController, UserController } from './controllers/index.js';
 import { checkAuth, validationErrors } from './utils/index.js';
 
-const mongoConnect =
-  'mongodb+srv://admin:qwerty123@cluster0.zcfiknu.mongodb.net/blog?retryWrites=true&w=majority';
+const mongoConnect = process.env.MONGODB_URI;
 
 mongoose
   .connect(mongoConnect)
@@ -106,7 +105,7 @@ app.patch(
 app.get('/tags', PostController.getLastTags);
 app.get('/tags/:name', PostController.getPostsByTag);
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log('somthing went wrong:' + err);
   } else {
