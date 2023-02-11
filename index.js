@@ -11,7 +11,9 @@ import {
 import { PostController, UserController } from './controllers/index.js';
 import { checkAuth, validationErrors } from './utils/index.js';
 
-const mongoConnect = process.env.MONGODB_URI;
+const mongoConnect =
+  process.env.MONGODB_URI ||
+  'mongodb+srv://admin:qwerty123@cluster0.zcfiknu.mongodb.net/blog?retryWrites=true&w=majority';
 
 mongoose
   .connect(mongoConnect)
@@ -105,10 +107,17 @@ app.patch(
 app.get('/tags', PostController.getLastTags);
 app.get('/tags/:name', PostController.getPostsByTag);
 
+app.get('/port', (req, res) => {
+  res.json(process.env.PORT);
+});
+
 app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log('somthing went wrong:' + err);
   } else {
+    if (process.env.PORT) {
+      console.log(`server is working on: ${process.env.PORT}`);
+    }
     console.log('server is working on port: 4444');
   }
 });
