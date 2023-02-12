@@ -30,7 +30,9 @@ export const getOne = async (req, res) => {
         commentsAmount: comments.length,
       }
     );
-    const newPost = await PostModel.findOne({ _id: postId });
+    const newPost = await PostModel.findOne({ _id: postId })
+      .populate('user')
+      .exec();
     console.log(newPost);
     res.json(newPost);
   } catch (error) {
